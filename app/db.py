@@ -2,7 +2,7 @@
 
 
 def get_user(cursor, user_id):
-    # BUG (synthetic): SQL injection via string interpolation of untrusted input.
-    query = "SELECT * FROM users WHERE id = '%s'" % user_id
-    cursor.execute(query)
+    # Parameterised query: the driver binds user_id safely (no string interpolation).
+    query = "SELECT * FROM users WHERE id = %s"
+    cursor.execute(query, (user_id,))
     return cursor.fetchall()
